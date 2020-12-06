@@ -14,4 +14,4 @@ model.load_state_dict(torch.load("./CNNModel.pth"))
 model.eval()
 
 ASLRecognizerApp(tkinter.Tk(), "ASLRecognizer", model)
-
+print("test")
