@@ -56,12 +56,12 @@ class ASLRecognizerApp:
         self.middleFrame = tkinter.Frame(self.window)
         
         #Setting up the video capture
-        self.vid = VideoCapture(video_source)
+        self.vid = VideoCapture(self.video_source)
         self.canvas = tkinter.Canvas(self.middleFrame, width = self.vid.width, height = self.vid.height)
         self.canvas.pack(side=tkinter.LEFT)
         
         #Setting up the documentation
-        alphabet = PIL.Image.open("./assets/ASLAlphabet.jpg")
+        alphabet = PIL.Image.open("assets/ASLAlphabet.jpg")
         imwidth, imheight = alphabet.size
         ratio = imwidth/imheight
         alphabet = alphabet.resize((int(ratio*700), 700), PIL.Image.ANTIALIAS)
