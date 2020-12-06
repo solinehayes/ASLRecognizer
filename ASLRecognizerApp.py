@@ -37,26 +37,22 @@ class ASLRecognizerApp:
         self.video_source = video_source
         
          # Adding button to snap (to be taken off eventually)
-        self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.snapshot)
+        self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.gestureDetection)
         self.btn_snapshot.pack(anchor=tkinter.N, expand=True)
         
         self.middleFrame = tkinter.Frame(self.window)
-        # open video source
-        self.vid = VideoCapture(video_source)
-        self.canvas = tkinter.Canvas(self.middleFrame, width = self.vid.width, height = self.vid.height)
-        self.canvas.pack(side=tkinter.LEFT)
-        
-        alphabet = PIL.Image.open("./ASLAlphabet.jpg")
-        imwidth, imheight = alphabet.size
-        ratio = imwidth/imheight
-        alphabet = alphabet.resize((int(ratio*700), 700), PIL.Image.ANTIALIAS)
-        image = PIL.ImageTk.PhotoImage(alphabet)
-        self.labelAlphabet= tkinter.Label(self.middleFrame,image=image)
+
+        #Setting up the video capture
+        self.setupVideoCapture()
+
+        #Setting up the documentation
+        ASLDoc = self.loadImage("assets/ASLAlphabet.jpg", 700)
+        self.labelAlphabet= tkinter.Label(self.middleFrame,image=ASLDoc)
         self.labelAlphabet.pack(side=tkinter.LEFT)
         
         self.middleFrame.pack()
-        
-        # create message display
+
+        # Setting up the message display
         self.message=""
         self.textDisplay = tkinter.Text(window)
         self.textDisplay.pack(anchor= tkinter.S, expand=True)
@@ -65,6 +61,19 @@ class ASLRecognizerApp:
         self.update()
         
         self.window.mainloop()
+
+    def setupVideoCapture(self):
+        self.vid = VideoCapture(self.video_source)
+        self.canvas = tkinter.Canvas(self.middleFrame, width = self.vid.width, height = self.vid.height)
+        self.canvas.pack(side=tkinter.LEFT)
+        
+    def loadImage(self, path, height):
+        image = PIL.Image.open(path)
+        imwidth, imheight = image.size
+        imageRatio = imwidth/imheight
+        image = image.resize((int(imageRatio*height), height), PIL.Image.ANTIALIAS)
+        image = PIL.ImageTk.PhotoImage(image)
+        return image
         
     def setMessageDisplay(self):
         self.textDisplay.delete(1.0,"end")
@@ -76,7 +85,8 @@ class ASLRecognizerApp:
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.canvas.create_image(0,0, anchor = tkinter.NW, image=self.photo)
         self.window.after(self.delay, self.update)
-    def snapshot(self):
+
+    def gestureDetection(self):
         ret, frame = self.vid.get_frame()
         if ret:
             letter= getModelPrediction(self.model,frame)
