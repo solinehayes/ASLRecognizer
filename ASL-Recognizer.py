@@ -10,7 +10,7 @@ from ASLRecognizerApp import ASLRecognizerApp
 #Import model
 model = torchvision.models.resnet34(pretrained = True)
 model.fc = torch.nn.Linear(model.fc.in_features,29)
-model.load_state_dict(torch.load("./CNNModel.pth"))
+model.load_state_dict(torch.load("./assets/CNNModel.pth"))
 model.eval()
 
 ASLRecognizerApp(tkinter.Tk(), "ASLRecognizer", model)

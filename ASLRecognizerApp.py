@@ -46,7 +46,7 @@ class ASLRecognizerApp:
         self.canvas = tkinter.Canvas(self.middleFrame, width = self.vid.width, height = self.vid.height)
         self.canvas.pack(side=tkinter.LEFT)
         
-        alphabet = PIL.Image.open("./ASLAlphabet.jpg")
+        alphabet = PIL.Image.open("./assets/ASLAlphabet.jpg")
         imwidth, imheight = alphabet.size
         ratio = imwidth/imheight
         alphabet = alphabet.resize((int(ratio*700), 700), PIL.Image.ANTIALIAS)
