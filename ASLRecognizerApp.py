@@ -33,12 +33,12 @@ class ASLRecognizerApp:
         self.window = window
         self.window.title(window_title)
         self.model = model
-        
+        self.frame_iter = 0        
         self.video_source = video_source
         
          # Adding button to snap (to be taken off eventually)
-        self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.gestureDetection)
-        self.btn_snapshot.pack(anchor=tkinter.N, expand=True)
+#        self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.gestureDetection)
+#        self.btn_snapshot.pack(anchor=tkinter.N, expand=True)
         
         self.middleFrame = tkinter.Frame(self.window)
 
@@ -80,15 +80,18 @@ class ASLRecognizerApp:
         self.textDisplay.insert(1.0, self.message)
         
     def update(self):
-        ret, frame = self.vid.get_frame()
+        ret, frame,X,Y,H,W = self.vid.get_frame()
         if ret:
+            #display the rectangle to the frame
+            cv2.rectangle(frame, (X, Y), (X+max(W,H)), (Y+max(W,H)), (0, 0, 255), 2)
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.canvas.create_image(0,0, anchor = tkinter.NW, image=self.photo)
+            if (self.frame_iter%5==0):
+                gestureDetection(self,frame[X:max(W,H),Y:max(W,H)])
+            self.frame_iter+=1    
         self.window.after(self.delay, self.update)
 
-    def gestureDetection(self):
-        ret, frame = self.vid.get_frame()
-        if ret:
+    def gestureDetection(self,frame):
             letter= getModelPrediction(self.model,frame)
             if(letter == "space"):
                 self.message +=" "
