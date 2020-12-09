@@ -92,13 +92,11 @@ class ASLRecognizerApp:
             frame = cv2.rectangle(frame,start_point, end_point, (0, 0, 255), 2)
             if (self.frame_iter%5==0):
                 if((H!=0 or W!=0) and (X!=0 and Y!=0 and H!=self.vid.height and W!=self.vid.width)):
+                    cropSize = min(max(H,W), self.vid.width-X, self.vid.height -Y)
+                    end_point =(int(X+cropSize), int(Y+cropSize))
                     #Draws a red rectangle when it is snaping
                     frame = cv2.rectangle(frame,start_point, end_point, (255, 0, 0), 3)
-
-                    #Croping the frame if it is out of bounds
-                    cropedFrameH = min(max(W,H), int(self.vid.width-Y))
-                    cropedFrameW = min(max(W,H), int(self.vid.height-X))
-                    self.gestureDetection(frame[X:cropedFrameW,Y:cropedFrameH])
+                    self.gestureDetection(frame[X:int(cropSize),Y:int(cropSize)])
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.canvas.create_image(0,0, anchor = tkinter.NW, image=self.photo)
             self.frame_iter+=1    
