@@ -24,6 +24,8 @@ class VideoCapture:
             self.vid.release()
     def get_frame(self):
         self.frame_iter+=1
+        if(self.frame_iter>self.max_frame_iter):
+            self.frame_iter=0
         if self.vid.isOpened():
             ret, frame = self.vid.read()
             if(self.frame_iter%5==0):
