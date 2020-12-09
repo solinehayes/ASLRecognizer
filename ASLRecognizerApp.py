@@ -5,6 +5,8 @@ from VideoCapture import VideoCapture
 import tkinter
 import PIL.Image, PIL.ImageTk
 import torchvision.transforms as tt
+import cv2
+import matplotlib.pyplot as plt
 
 classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 
            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
@@ -33,7 +35,8 @@ class ASLRecognizerApp:
         self.window = window
         self.window.title(window_title)
         self.model = model
-        self.frame_iter = 0        
+        self.frame_iter = 0 
+        self.max_frame_iter =10000       
         self.video_source = video_source
         
          # Adding button to snap (to be taken off eventually)
@@ -80,15 +83,28 @@ class ASLRecognizerApp:
         self.textDisplay.insert(1.0, self.message)
         
     def update(self):
-        ret, frame,X,Y,H,W = self.vid.get_frame()
+        ret, frame,boundingBox = self.vid.get_frame()
+        [X,Y,H,W]= boundingBox
         if ret:
             #display the rectangle to the frame
-            cv2.rectangle(frame, (X, Y), (X+max(W,H)), (Y+max(W,H)), (0, 0, 255), 2)
+            start_point = (X, Y)
+            end_point =(int(X+max(W,H)), int(Y+max(W,H)))
+            frame = cv2.rectangle(frame,start_point, end_point, (0, 0, 255), 2)
+            if (self.frame_iter%5==0):
+                if((H!=0 or W!=0) and (X!=0 and Y!=0 and H!=self.vid.height and W!=self.vid.width)):
+                    #Draws a red rectangle when it is snaping
+                    frame = cv2.rectangle(frame,start_point, end_point, (255, 0, 0), 3)
+
+                    #Croping the frame if it is out of bounds
+                    cropedFrameH = min(max(W,H), int(self.vid.width-Y))
+                    cropedFrameW = min(max(W,H), int(self.vid.height-X))
+                    self.gestureDetection(frame[X:cropedFrameW,Y:cropedFrameH])
             self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
             self.canvas.create_image(0,0, anchor = tkinter.NW, image=self.photo)
-            if (self.frame_iter%5==0):
-                gestureDetection(self,frame[X:max(W,H),Y:max(W,H)])
             self.frame_iter+=1    
+            if(self.frame_iter>self.max_frame_iter):
+                self.frame_iter =0
+
         self.window.after(self.delay, self.update)
 
     def gestureDetection(self,frame):
