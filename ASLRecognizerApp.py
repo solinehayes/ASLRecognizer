@@ -92,6 +92,8 @@ class ASLRecognizerApp:
             frame = cv2.rectangle(frame,start_point, end_point, (0, 0, 255), 2)
             if (self.frame_iter%5==0):
                 if((H!=0 or W!=0) and (X!=0 and Y!=0 and H!=self.vid.height and W!=self.vid.width)):
+                    X=max(0,X)
+                    Y=max(0,Y)
                     cropSize = min(max(H,W), self.vid.width-X, self.vid.height -Y)
                     end_point =(int(X+cropSize), int(Y+cropSize))
                     #Draws a red rectangle when it is snaping
