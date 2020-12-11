@@ -16,7 +16,7 @@ yolo.confidence = 0.2
 
 def demo(frame,originale):
     kernel_blur=7
-    seuil=10
+    seuil=15    
     surface=5000
     kernel_dilate=np.ones((7, 7), np.uint8)
     s=50
@@ -30,6 +30,7 @@ def demo(frame,originale):
     contours, nada=cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     frame_contour=frame.copy()
     T=[]
+    X,Y,H,W =0,0,0,0
     for c in contours:
         if cv2.contourArea(c)<surface:
             continue
@@ -45,12 +46,13 @@ def demo(frame,originale):
             if(abs(cx1-cx)<=s):
                 d=1
                 break
-    X,Y,H,W =0,0,0,0
-    if d==1:            
-        X=min(x1,x)
-        Y=min(y1,y)
-        H=int(1.25*max(h1,h))
-        W=int(1.25*max(w1,w))
+        X,Y,H,W =0,0,0,0
+        if d==1:            
+            X=min(x1,x)
+            Y=min(y1,y)
+            H=int(1.25*max(h1,h))
+            W=int(1.25*max(w1,w))
         
 
     return  X,Y,H,W     
+
