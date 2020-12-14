@@ -8,6 +8,7 @@ In order for the code to run, several dependencies have to be downloaded to your
 - pytorch: `pip install torch`
 - torchvision: `pip install torchvision`
 - cv2: `pip install opencv-python`
+- Numpy version at least 1.15.2
 
 ## Run
 
