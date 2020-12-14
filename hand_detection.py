@@ -9,7 +9,7 @@ from skimage.measure import compare_ssim
 from skimage.transform import resize
 
 
-yolo = YOLO("models/cross-hands-tiny-prn.cfg", "models/cross-hands-tiny-prn.weights", ["hand"])
+yolo = YOLO("YOlOModels/cross-hands-tiny-prn.cfg", "YOLOModels/cross-hands-tiny-prn.weights", ["hand"])
 
 yolo.size = 416
 yolo.confidence = 0.2
