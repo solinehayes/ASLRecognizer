@@ -90,7 +90,7 @@ class ASLRecognizerApp:
             start_point = (X, Y)
             end_point =(int(X+max(W,H)), int(Y+max(W,H)))
             frame = cv2.rectangle(frame,start_point, end_point, (0, 0, 255), 2)
-            if (self.frame_iter%5==0):
+            if (self.frame_iter%8==0):
                 if((H!=0 or W!=0) and (X!=0 and Y!=0 and H!=self.vid.height and W!=self.vid.width)):
                     X=max(0,X)
                     Y=max(0,Y)
