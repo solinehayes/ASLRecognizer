@@ -39,10 +39,10 @@ class ASLRecognizerApp:
         self.max_frame_iter =10000       
         self.video_source = video_source
         
-         # Adding button to snap (to be taken off eventually)
-#        self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.gestureDetection)
-#        self.btn_snapshot.pack(anchor=tkinter.N, expand=True)
-        
+        # Adding button to snap (to be taken off eventually)
+        self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.snap)
+        self.btn_snapshot.pack(anchor=tkinter.N, expand=True)
+
         self.middleFrame = tkinter.Frame(self.window)
 
         #Setting up the video capture
@@ -117,4 +117,9 @@ class ASLRecognizerApp:
             elif (len(letter)==1):
                 self.message+=letter 
             self.setMessageDisplay()
+
+    def snap(self):
+        ret, frame,boundingBox = self.vid.get_frame()
+        if ret:
+            self.gestureDetection(frame)
             
