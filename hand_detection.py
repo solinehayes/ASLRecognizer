@@ -46,7 +46,6 @@ def demo(frame,originale):
             if(abs(cx1-cx)<=s):
                 d=1
                 break
-        X,Y,H,W =0,0,0,0
         if d==1:            
             X=min(x1,x)
             Y=min(y1,y)
