@@ -18,10 +18,9 @@ test_transform = tt.Compose([
                              tt.Resize((224,224)),
                              tt.Normalize(mean=[0.485,0.485,0.485], std=[0.229,0.229,0.229]),
                          ])
-PATH = "/content/drive/My Drive/ComputerVision/"
 
-
-
+#Former path in the google colab
+PATH = "/content/drive/My Drive/ComputerVision/" 
 
 #Creating model
 model = torchvision.models.resnet34(pretrained = True)

@@ -15,7 +15,7 @@ class VideoCapture:
         self.width = self.vid.get(cv2.CAP_PROP_FRAME_WIDTH)
         self.height = self.vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
         self.frame_iter =0 
-        self.max_frame_iter=10000
+        self.max_frame_iter=10000  #Not to have too great number of fram iteration
         self.boundingBox = [0,0,self.height,self.width]
 
 

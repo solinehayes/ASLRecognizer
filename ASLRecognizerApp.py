@@ -36,10 +36,10 @@ class ASLRecognizerApp:
         self.window.title(window_title)
         self.model = model
         self.frame_iter = 0 
-        self.max_frame_iter =10000       
+        self.max_frame_iter =10000  #Not to have too great numbers of fram iteration     
         self.video_source = video_source
         
-        # Adding button to snap (to be taken off eventually)
+        # Adding button to snap 
         self.btn_snapshot=tkinter.Button(window, text="Snapshot", width=50, command=self.snap)
         self.btn_snapshot.pack(anchor=tkinter.N, expand=True)
 
@@ -48,16 +48,17 @@ class ASLRecognizerApp:
         #Setting up the video capture
         self.setupVideoCapture()
 
-        #Setting up the documentation
+        #Setting up the image documentation
         ASLDoc = self.loadImage("assets/ASLAlphabet.jpg", 700)
         self.labelAlphabet= tkinter.Label(self.middleFrame,image=ASLDoc)
         self.labelAlphabet.pack(side=tkinter.LEFT)
         
         self.middleFrame.pack()
 
-        # Adding button to snap (to be taken off eventually)
+        # Adding button to clear the text
         self.btn_snapshot=tkinter.Button(window, text="Clear", width=20, command=self.clearText)
         self.btn_snapshot.pack(anchor=tkinter.S)
+
         # Setting up the message display
         self.message=""
         self.textDisplay = tkinter.Text(window)
@@ -95,10 +96,14 @@ class ASLRecognizerApp:
             frame = cv2.rectangle(frame,start_point, end_point, (0, 0, 255), 2)
             if (self.frame_iter%8==0):
                 if((H!=0 or W!=0) and (X!=0 and Y!=0 and H!=self.vid.height and W!=self.vid.width)):
+                    #Preventing negative X and Y
                     X=max(0,X)
                     Y=max(0,Y)
+
+                    #Making the snaped image square and take into account the borders
                     cropSize = min(max(H,W), self.vid.width-X, self.vid.height -Y)
                     end_point =(int(X+cropSize), int(Y+cropSize))
+
                     #Draws a red rectangle when it is snaping
                     frame = cv2.rectangle(frame,start_point, end_point, (255, 0, 0), 3)
                     self.gestureDetection(frame[Y:int(Y+cropSize),X:int(X+cropSize)])
