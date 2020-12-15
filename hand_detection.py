@@ -31,10 +31,28 @@ def getHandBoundingBox(frame,originale):
     frame_contour=frame.copy()
     T=[]
     X,Y,H,W =0,0,0,0
+    # The next part is commented because this version of the code uses just YOLO + padding
+    #for c in contours:	
+    #    if cv2.contourArea(c)<surface:	
+    #        continue	
+    #    T.append(c)
     iw, ih, inference_time, results = yolo.inference(frame)
+    #d=0
     for detection in results: 
-        id, name, confidence, x, y, w, h = detection 
-        cx=x+(w/2)      
+        id, name, confidence, x, y, w, h = detection
+        # The next part is commented because this version of the code uses just YOLO + padding
+        #cx=x+(w/2)     
+        #for cnt in T:	
+        #    x1, y1, w1, h1=cv2.boundingRect(cnt)
+        #    cx1=x1+(w1/2)
+        #    if(abs(cx1-cx)<=s):	  
+        #        d=1	 
+        #        break
+        #if d==1: 
+        #    X=min(x1,x)
+        #    Y=min(y1,y)	
+        #    H=int(1.25*max(h1,h))	
+        #    W=int(1.25*max(w1,w))
 
         #Adding a padding to get the whole hand
         centerX = int((2*x+w)/2)
