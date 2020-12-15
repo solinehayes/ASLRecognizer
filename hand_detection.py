@@ -14,7 +14,7 @@ yolo = YOLO("YOlOModels/cross-hands-tiny-prn.cfg", "YOLOModels/cross-hands-tiny-
 yolo.size = 416
 yolo.confidence = 0.2
 
-def handDetection(frame,originale):
+def getHandBoundingBox(frame,originale):
     kernel_blur=7
     seuil=15    
     surface=5000
