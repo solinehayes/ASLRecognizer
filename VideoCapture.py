@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import cv2
-from hand_detection import demo
+from hand_detection import handDetection
 
 class VideoCapture:
 
@@ -29,7 +29,7 @@ class VideoCapture:
         if self.vid.isOpened():
             ret, frame = self.vid.read()
             if(self.frame_iter%5==0):
-                X,Y,H,W=demo(frame,self.originale) 
+                X,Y,H,W=handDetection(frame,self.originale) 
                 self.boundingBox =[X,Y,H,W]
             self.originale=frame
             if ret:
