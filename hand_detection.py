@@ -31,27 +31,19 @@ def demo(frame,originale):
     frame_contour=frame.copy()
     T=[]
     X,Y,H,W =0,0,0,0
-#    for c in contours:
-#        if cv2.contourArea(c)<surface:
-#            continue
-#        T.append(c)
     iw, ih, inference_time, results = yolo.inference(frame)
-#    d=0
     for detection in results: 
         id, name, confidence, x, y, w, h = detection 
-        cx=x+(w/2)        
-#        for cnt in T:
-#            x1, y1, w1, h1=cv2.boundingRect(cnt)
-#            cx1=x1+(w1/2)
-#            if(abs(cx1-cx)<=s):
-#                d=1
-#                break
-            
-#        if d==1:            
-        X=max(0,x-10)
-        Y=max(y-10,0)
+        cx=x+(w/2)      
+
+        #Adding a padding to get the whole hand
+        centerX = int((2*x+w)/2)
+        centerY = int((2*y+h)/2)
         H=int(1.5*h)
         W=int(1.5*w)
+        X=max(0,int(centerX-W/2))
+        Y=max(int(centerY-H/2),0)
+        
         
 
     return  X,Y,H,W     
