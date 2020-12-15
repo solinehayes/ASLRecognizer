@@ -55,6 +55,9 @@ class ASLRecognizerApp:
         
         self.middleFrame.pack()
 
+        # Adding button to snap (to be taken off eventually)
+        self.btn_snapshot=tkinter.Button(window, text="Clear", width=20, command=self.clearText)
+        self.btn_snapshot.pack(anchor=tkinter.S)
         # Setting up the message display
         self.message=""
         self.textDisplay = tkinter.Text(window)
@@ -122,4 +125,7 @@ class ASLRecognizerApp:
         ret, frame,boundingBox = self.vid.get_frame()
         if ret:
             self.gestureDetection(frame)
+    def clearText(self):
+        self.message=""
+        self.setMessageDisplay()
             
