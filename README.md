@@ -1,5 +1,7 @@
 # INF573-ComputerVisionProject
 
+This is a project to recognize the American Sign Language (ASL) alphabet. The interface created allows you to translate the sign made with the ASL alphabet into sentences.
+
 ## Setup
 
 In order for the code to run, several dependencies have to be downloaded to your computer:
