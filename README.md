@@ -1,6 +1,7 @@
-# INF573-ComputerVisionProject
+# American Sign Language Recognizer
 
 This is a project to recognize the American Sign Language (ASL) alphabet. The interface created allows you to translate the sign made with the ASL alphabet into sentences.
+This projet is part of the INF573 Computer vision class.
 
 ## Setup
 
